@@ -55,7 +55,7 @@ class Dict:
         url = 'https://fanyi.baidu.com'
 
         if not self.tokenExpire:  # don't need to load main page
-            return
+            return True
 
         try:
             r = self.sess.get(url, headers=self.headers)

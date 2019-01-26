@@ -112,5 +112,6 @@ class Dict:
             json = r.json()
             if 'error' in json:
                 raise Exception('baidu sdk error: {}'.format(json['error']))
+                # 998错误则意味需要重新加载主页获取新的token
             return json
         return None

@@ -45,7 +45,11 @@ class Dict:
         }
         self.token = None
         self.gtk = None
-        self.tokenExpire = True
+        
+        # 获得token和gtk
+        # 必须要加载两次保证token是最新的，否则会出现998的错误
+        self.loadMainPage()
+        self.loadMainPage()
 
     def loadMainPage(self):
         """
@@ -54,17 +58,13 @@ class Dict:
         """
         url = 'https://fanyi.baidu.com'
 
-        if not self.tokenExpire:  # don't need to load main page
-            return True
-
         try:
             r = self.sess.get(url, headers=self.headers)
             self.token = re.findall(r"token: '(.*?)',", r.text)[0]
             self.gtk = re.findall(r"window.gtk = '(.*?)';", r.text)[0]
-        except:
-            return False
-        self.tokenExpire = False
-        return True
+        except Exception as e:
+            raise e
+            # print(e)
 
     def langdetect(self, query):
         """
@@ -76,21 +76,22 @@ class Dict:
         data = {'query' : query}
         try:
             r = self.sess.post(url=url, data=data)
-        except:
-            return None
+        except Exception as e:
+            raise e
+            # print(e)
+
         json = r.json()
         if 'msg' in json and json['msg'] == 'success':
             return json['lan']
         return None
 
-    def dictionary(self, query, queryCount=0):
+    def dictionary(self, query):
         """
             max query count = 2
             get translate result from https://fanyi.baidu.com/v2transapi
         """
         url = 'https://fanyi.baidu.com/v2transapi'
-        if queryCount >= 2 or not self.loadMainPage():
-            return None
+
         sign = execjs.compile(JS_CODE).call('token', query, self.gtk)
 
         lang = self.langdetect(query)
@@ -104,14 +105,12 @@ class Dict:
         }
         try:
             r = self.sess.post(url=url, data=data)
-        except:
-            return None
-
+        except Exception as e:
+            raise e
         
         if r.status_code == 200:
             json = r.json()
-            if 'error' in json and json['error'] == 998: # token expire, reload main page to get token and translate
-                self.tokenExpire = True
-                return self.dictionary(query, queryCount+1)
+            if 'error' in json:
+                raise Exception('baidu sdk error: {}'.format(json['error']))
             return json
         return None

@@ -85,6 +85,7 @@ class Dict:
             return json['lan']
         return None
 
+
     def dictionary(self, query):
         """
             get translate result from https://fanyi.baidu.com/v2transapi

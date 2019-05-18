@@ -51,6 +51,7 @@ class Dict:
         self.loadMainPage()
         self.loadMainPage()
 
+
     def loadMainPage(self):
         """
             load main page : https://fanyi.baidu.com/
@@ -64,12 +65,12 @@ class Dict:
             self.gtk = re.findall(r"window.gtk = '(.*?)';", r.text)[0]
         except Exception as e:
             raise e
-            # print(e)
+
 
     def langdetect(self, query):
         """
             post query to https://fanyi.baidu.com/langdetect
-            return json
+            return json like
             {"error":0,"msg":"success","lan":"en"}
         """
         url = 'https://fanyi.baidu.com/langdetect'
@@ -78,7 +79,6 @@ class Dict:
             r = self.sess.post(url=url, data=data)
         except Exception as e:
             raise e
-            # print(e)
 
         json = r.json()
         if 'msg' in json and json['msg'] == 'success':
@@ -87,7 +87,6 @@ class Dict:
 
     def dictionary(self, query):
         """
-            max query count = 2
             get translate result from https://fanyi.baidu.com/v2transapi
         """
         url = 'https://fanyi.baidu.com/v2transapi'

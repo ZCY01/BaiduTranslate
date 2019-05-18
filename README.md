@@ -1,4 +1,5 @@
 # BaiduTranslate
+## 欢迎各位同学 Star
 ## 百度翻译 API
 ### 依赖库
 * execjs

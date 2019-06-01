@@ -12,4 +12,4 @@
 
 * 观察觉得，token持续的时间比较短，而gtk持续的时间相对来说比较长。如果查询 https://fanyi.baidu.com/v2transapi 返回998的error则重新获取token即可。
 
-### 不需要填写任何cookie信息，使用requests.Session就可以保存足够的cookies信息了。
+### 不需要填写任何cookie信息，使用requests.Session就可以保存足够的cookies信息了。 

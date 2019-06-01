@@ -1,3 +1,5 @@
+#/usr/bin/python
+# -*- coding: utf-8 -*-
 import execjs
 import requests
 import re
@@ -36,6 +38,7 @@ var token = function(r, _gtk) {
 }
 """
 
+
 class Dict:
     def __init__(self):
         self.sess = requests.Session()
@@ -45,12 +48,11 @@ class Dict:
         }
         self.token = None
         self.gtk = None
-        
+
         # 获得token和gtk
         # 必须要加载两次保证token是最新的，否则会出现998的错误
         self.loadMainPage()
         self.loadMainPage()
-
 
     def loadMainPage(self):
         """
@@ -66,7 +68,6 @@ class Dict:
         except Exception as e:
             raise e
 
-
     def langdetect(self, query):
         """
             post query to https://fanyi.baidu.com/langdetect
@@ -74,7 +75,7 @@ class Dict:
             {"error":0,"msg":"success","lan":"en"}
         """
         url = 'https://fanyi.baidu.com/langdetect'
-        data = {'query' : query}
+        data = {'query': query}
         try:
             r = self.sess.post(url=url, data=data)
         except Exception as e:
@@ -85,8 +86,7 @@ class Dict:
             return json['lan']
         return None
 
-
-    def dictionary(self, query):
+    def dictionary(self, query, src='en', dst='zh'):
         """
             get translate result from https://fanyi.baidu.com/v2transapi
         """
@@ -94,10 +94,12 @@ class Dict:
 
         sign = execjs.compile(JS_CODE).call('token', query, self.gtk)
 
-        lang = self.langdetect(query)
+        if not src:
+            src = self.langdetect(query)
+
         data = {
-            'from': 'en' if lang == 'en' else 'zh',
-            'to': 'zh' if lang == 'en' else 'en',
+            'from': src,
+            'to': dst,
             'query': query,
             'simple_means_flag': 3,
             'sign': sign,
@@ -107,7 +109,7 @@ class Dict:
             r = self.sess.post(url=url, data=data)
         except Exception as e:
             raise e
-        
+
         if r.status_code == 200:
             json = r.json()
             if 'error' in json:

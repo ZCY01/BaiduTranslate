@@ -1,4 +1,4 @@
-#/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import execjs
 import requests
@@ -116,4 +116,4 @@ class Dict:
                 raise Exception('baidu sdk error: {}'.format(json['error']))
                 # 998错误则意味需要重新加载主页获取新的token
             return json
-        return None 
+        return None

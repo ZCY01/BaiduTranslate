@@ -9,4 +9,4 @@ if __name__ == "__main__":
     json = d.dictionary('like a hot knife through butter', dst='zh', src='en')
     print(json)
     json = d.dictionary('青花瓷', dst='en', src='zh')
-    print(json['trans_result']['data'][0]['dst'])
+    print(json['trans_result']['data'][0]['dst']) 

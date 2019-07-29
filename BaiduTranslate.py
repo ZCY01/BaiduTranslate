@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import execjs
 import requests
@@ -48,6 +47,7 @@ class Dict:
         }
         self.token = None
         self.gtk = None
+        self.javascript = execjs.compile(JS_CODE)
 
         # 获得token和gtk
         # 必须要加载两次保证token是最新的，否则会出现998的错误
@@ -92,7 +92,7 @@ class Dict:
         """
         url = 'https://fanyi.baidu.com/v2transapi'
 
-        sign = execjs.compile(JS_CODE).call('token', query, self.gtk)
+        sign = self.javascript.call('token', query, self.gtk)
 
         if not src:
             src = self.langdetect(query)

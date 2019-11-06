@@ -6,6 +6,13 @@
 * requests
 * re
 
+### Linux 系统安装依赖
+```
+# For Debian or Ubuntu
+sudo apt-get install nodejs
+pip3 install PyExecJS 
+pip3 install requests
+```
 ### 相关疑问
 * token, sign的提取方式详见[百度翻译接口 破解](https://blog.csdn.net/hujingshuang/article/details/80180294)
 

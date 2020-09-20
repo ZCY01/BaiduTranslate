@@ -20,3 +20,10 @@ pip3 install requests
 * 观察觉得，token持续的时间比较短，而gtk持续的时间相对来说比较长。如果查询 https://fanyi.baidu.com/v2transapi 返回998的error则重新获取token即可。
 
 ### 不需要填写任何cookie信息，使用requests.Session就可以保存足够的cookies信息了。 
+
+## 其他有关项目
+### C++ 版本的百度翻译API
+@jiangzc 参考此项目用 C++/Qt 实现了百度翻译API
+
+项目地址： https://github.com/jiangzc/CuteTranslation   
+相关代码在 src/baidutranslate.h 和 src/baidutranslate.cpp 里面。
